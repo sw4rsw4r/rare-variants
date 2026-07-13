@@ -8,7 +8,9 @@ phenotype <- "qualification"
 # phenotype <- "lactose_intolerance"
 
 xCtrl <- 1
-num_pcs_used <- 15
+num_pcs_used <- 5
+input_pcs <- load_pcs(num_pcs_used)
+eigen_vals <- load_eigen()
 input_cov <- load_covariate()
 df_pheno_binary <- load_phenotype(phenotype)
 
@@ -111,10 +113,6 @@ input_cov$case <- ifelse(input_cov$IID %in% ids_case, 1, ifelse(input_cov$IID %i
 #   }
 # }
 
-input_pcs <- load_pcs(num_pcs_used)
-eigen_vals <- load_eigen()
-df_AF <- load_MAF()
-
 list_variants <- colnames(df_variants)[-c(1:6)]
 
 date()
@@ -122,9 +120,6 @@ for (idx in 1:length(list_variants)) {
   print(idx)
   this_snp <- list_variants[idx]
 
-  MAF <- subset(df_AF, snp == this_snp)$MAF
-
-  # ---- PCAmatch 등 기존 코드 ----
   samp_intersect <- Reduce(
     "intersect",
     list(
@@ -136,8 +131,9 @@ for (idx in 1:length(list_variants)) {
   input_pcs_sorted <- input_pcs[match(samp_intersect, input_pcs$IID), ]
   input_cov_sorted <- input_cov[match(samp_intersect, input_cov$IID), ]
 
+  path_res <- here::here(paste0("results/01_random_variants1000/", num_pcs_used, "PCs/", xCtrl, "xCtrl/samp_1pct/"))
+  check_directory(path_res)
   set.seed(1)
-
   if (phenotype %in% c("qualification", "TV", "milk")) {
     fname_pcamatch <- here::here(paste0("results/PCAmatch/", phenotype, "/match_random_1pct_", num_pcs_used, "PCs_", xCtrl, "xCtrl_", this_snp, ".RDS"))
     n_selected <- round(0.01 * length(samp_intersect))
@@ -180,7 +176,7 @@ for (idx in 1:length(list_variants)) {
   colnames(input_unmatched)[colnames(input_unmatched) == "snp_val"] <- this_snp
   input_unmatched <- merge(input_unmatched, input_pcs_sorted2, by = "IID")
 
-  # ---- 모델 fitting ----
+  # ---- model fitting ----
   formula_clogit <- as.formula(paste("case ~ sex +", this_snp, "+ strata(match_final)"))
   clogit_fit <- survival::clogit(formula_clogit, data = input_reg)
 
@@ -190,6 +186,7 @@ for (idx in 1:length(list_variants)) {
   pcs <- paste0("PC", 1:num_pcs_used)
   formula_glm2 <- as.formula(paste("case ~ sex +", this_snp, "+", paste(pcs, collapse = " + ")))
   glm_fit2 <- stats::glm(formula_glm2, data = input_unmatched, family = binomial)
+  # ------------------------
 
   model_list <- list(
     SNP = this_snp,
@@ -198,7 +195,7 @@ for (idx in 1:length(list_variants)) {
     glm_pc_adjusted = glm_fit2
   )
 
-  fname_model <- here::here(paste0("results/models/", phenotype, "/", this_snp, "_models.RDS"))
+  fname_model <- here::here(paste0("results/models/", phenotype, "/match_random_1pct_", num_pcs_used, "PCs_", xCtrl, "xCtrl_", this_snp, ".RDS"))
   saveRDS(model_list, fname_model)
 }
 date()
