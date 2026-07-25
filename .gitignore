@@ -8,3 +8,13 @@ results/**
 !results/
 !results/**/
 !results/**/.gitkeep
+
+output/**
+tmp/**
+
+.Rhistory
+.RData
+.Rproj.user/
+*.log
+__pycache__/
+*.py[cod]

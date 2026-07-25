@@ -11,7 +11,7 @@ library(ggplot2)
 load_covariate <- function() {
   path_covariate <- here::here("data/UKBB_covariate.txt")
   df_cov <- data.table::fread(path_covariate)
-  input_cov <- as.data.frame(df_cov[, c("IID", "sex")])
+  input_cov <- as.data.frame(df_cov[, "IID"])
   return(input_cov)
 }
 
@@ -31,40 +31,6 @@ load_phenotype0 <- function(ID) {
     ) %>%
     dplyr::filter(!is.na(value))
   return(bd_long)
-}
-
-load_qualification <- function() {
-  path_phenotype <- here::here("data/processed/qualification.RDS")
-  if (!file.exists(path_phenotype)) {
-    df_pheno <- load_phenotype0("f\\.6138\\.")
-    # > table(df_pheno$value)
-
-    #     -7     -3      1      2      3      4      5      6
-    #  91531   5833 203979 160835 269170  75534 108572 169252
-    df_pheno <- df_pheno %>%
-      dplyr::filter(value != -3)
-
-    df_pheno_binary <- df_pheno %>%
-      dplyr::group_by(f.eid) %>%
-      dplyr::summarise(
-        case = ifelse(any(value == 1), 1, 0)
-      )
-    # > table(df_pheno_binary$case)
-
-    #      0      1
-    # 328733 164796
-    # > prop.table(table(df_pheno_binary$case))
-
-    #         0         1
-    # 0.6660865 0.3339135
-    ids_case <- subset(df_pheno_binary, case == 1)$f.eid
-    ids_ctrl <- subset(df_pheno_binary, case == 0)$f.eid
-    eid_ctrl <- list(case = ids_case, ctrl = ids_ctrl)
-    saveRDS(eid_ctrl, file = path_phenotype)
-  } else {
-    eid_ctrl <- readRDS(path_phenotype)
-  }
-  return(eid_ctrl)
 }
 
 load_qualification <- function() {
@@ -259,28 +225,25 @@ check_directory <- function(path) {
 }
 
 permute_y <- function(y, stratum) {
-  # 1. 인덱스, y, stratum을 매핑한 임시 data.table 생성
+  # Keep the original row order while permuting labels within matched sets.
   dt <- data.table(
     idx = seq_along(y),
     y = y,
     stratum = stratum
   )
-  
-  # 2. 각 stratum 별로 그룹화(.BY)하여 y 값만 무작위 셔플(sample)
-  # 이렇게 하면 각 매칭 그룹 내의 Case/Ctrl 비율은 유지되면서 행만 섞입니다.
+
   dt[, y_perm := sample(y), by = stratum]
-  
-  # 3. 원래 데이터 순서(idx)대로 정렬 후 섞인 y 값만 반환
+
   setorder(dt, idx)
   return(dt$y_perm)
 }
 
 clean_list_col <- function(col) {
   sapply(col, function(x) {
-    if (is.null(x) || length(x) == 0 || is.na(x)) {
-      return(NA_real_) # NULL이나 NA는 숫자형 NA로 통일
+    if (is.null(x) || length(x) == 0 || all(is.na(x))) {
+      return(NA_real_)
     } else {
-      return(as.numeric(x)) # 일반 숫자는 그대로 추출
+      return(as.numeric(x)[1])
     }
   })
 }
@@ -288,7 +251,7 @@ clean_list_col <- function(col) {
 extract_pval <- function(fit, snp_name) {
   s <- summary(fit)
 
-  # clogit / glm 공통 처리
+  # Handle clogit and glm coefficient tables.
   if ("coefficients" %in% names(s)) {
     coef_tab <- s$coefficients
   } else {
@@ -304,7 +267,7 @@ extract_pval <- function(fit, snp_name) {
 extract_z <- function(fit, snp_name) {
   s <- summary(fit)
 
-  # clogit / glm 공통 처리
+  # Handle clogit and glm coefficient tables.
   if ("coefficients" %in% names(s)) {
     coef_tab <- s$coefficients
   } else {
