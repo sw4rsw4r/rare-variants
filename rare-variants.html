@@ -17,21 +17,21 @@ figcaption { color: #555; font-size: 0.92rem; margin: 0.35rem 0 1.4rem; }
 <p>Scripts and summary tables for the analyses reported in the paper. Individual-level UK Biobank data are not included. The study used application 98032. The figures below are rebuilt from the deposited files in <code>summary/</code>.</p>
 
 <h2>UK Biobank negative and positive controls</h2>
-<p><img src="overview/qq_lct_tv.png" alt="LCT and TV watching QQ plot"></p>
+<p><img src="https://raw.githubusercontent.com/sw4rsw4r/rare-variants/main/overview/qq_lct_tv.png" alt="LCT and TV watching QQ plot"></p>
 <figcaption>LCT region variants and TV watching. Unadjusted logistic regression is truncated at 8 on the observed axis.</figcaption>
-<p><img src="overview/qq_chr2_tv.png" alt="Chromosome 2 and TV watching QQ plot"></p>
+<p><img src="https://raw.githubusercontent.com/sw4rsw4r/rare-variants/main/overview/qq_chr2_tv.png" alt="Chromosome 2 and TV watching QQ plot"></p>
 <figcaption>100 rare variants from chromosome 2 and TV watching.</figcaption>
-<p><img src="overview/rs4988235.png" alt="rs4988235-A odds ratios"></p>
+<p><img src="https://raw.githubusercontent.com/sw4rsw4r/rare-variants/main/overview/rs4988235.png" alt="rs4988235-A odds ratios"></p>
 <figcaption>rs4988235-A and lactose intolerance. Points are odds ratios per A allele with 95% confidence intervals.</figcaption>
 
 <h2>Balance after matching</h2>
-<p><img src="overview/pc_smd.png" alt="PC balance before and after matching"></p>
+<p><img src="https://raw.githubusercontent.com/sw4rsw4r/rare-variants/main/overview/pc_smd.png" alt="PC balance before and after matching"></p>
 <figcaption>Standardized mean differences for PC1 through PC10. PC1 through PC5 were used in matching. The shaded interval is |SMD| &lt; 0.1.</figcaption>
-<p><img src="overview/centres.png" alt="Assessment centre balance"></p>
+<p><img src="https://raw.githubusercontent.com/sw4rsw4r/rare-variants/main/overview/centres.png" alt="Assessment centre balance"></p>
 <figcaption>Assessment-centre SMDs at 1:6. Assessment centre was not used to construct the matches.</figcaption>
 
 <h2>Simulation</h2>
-<p><img src="overview/simulation.png" alt="Simulation type I error and power"></p>
+<p><img src="https://raw.githubusercontent.com/sw4rsw4r/rare-variants/main/overview/simulation.png" alt="Simulation type I error and power"></p>
 <figcaption>1,000 replicates of 50,000 individuals. Error bars are 95% Wilson intervals. The dashed line in the left panel is 0.05.</figcaption>
 <pre>Rscript simulation/revised_oracle_matching_simulation.R --calibrated --n-pcs=5 --n-iter=1000 --N=50000 --max-matched-cases=2500</pre>
 

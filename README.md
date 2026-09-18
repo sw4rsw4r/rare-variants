@@ -4,4 +4,4 @@ This repository contains all the scripts and comments needed to regenerate the f
 
 Individual-level UK Biobank genotype and phenotype data are not included. This study used application 98032.
 
-[Click here](https://sw4rsw4r.github.io/rare-variants/rare-variants.html) for an overview.
+[Click here](https://htmlpreview.github.io/?https://github.com/sw4rsw4r/rare-variants/blob/main/rare-variants.html) for an overview.
