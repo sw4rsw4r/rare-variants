@@ -2,6 +2,9 @@
 
 # PC-only matching followed by conditional logistic regression.
 #
+# The manuscript matching analyses are run from 016, 018, and 019. This file
+# is kept because those scripts load shared helper functions from it.
+#
 #   * all joins and genotype alignments are performed explicitly by IID;
 #   * matching uses PC1-PC5 only (no sex or genotype information);
 #   * 1:4 Mahalanobis nearest-neighbor matching is without replacement;
@@ -47,20 +50,16 @@ control_pool_multiplier <- 15L
 pc_names <- paste0("PC", seq_len(num_pcs))
 
 region_phenotypes <- list(
-  chr2_random100 = c("lactose_intolerance"),
-  LCT_region = c("TV", "qualification", "lactose_intolerance"),
-  PCSK9_region = c("TV", "qualification", "CHD")
+  chr2_random100 = c("TV"),
+  LCT_region = c("TV", "lactose_intolerance")
 )
 region_files <- c(
   chr2_random100 = "chr2_random100.raw",
-  LCT_region = "LCT_region_geno.raw",
-  PCSK9_region = "PCSK9_region_geno.raw"
+  LCT_region = "LCT_region_geno.raw"
 )
 phenotype_seeds <- c(
   TV = 1101L,
-  qualification = 1102L,
-  lactose_intolerance = 1103L,
-  CHD = 1104L
+  lactose_intolerance = 1103L
 )
 
 message_time <- function(...) {

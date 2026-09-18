@@ -2,6 +2,10 @@
 
 # Full-sample, pre-matching logistic GWAS.
 #
+# Manuscript analyses use LCT/TV, LCT/lactose intolerance, and chromosome 2
+# rare variants with TV watching. This file is also sourced for shared
+# genotype and phenotype helper functions by the numbered CLR scripts.
+#
 # This workflow is deliberately separate from 001_run_clogit.R and 002_plot.R:
 #   * no case/control subsampling or matching
 #   * no conditional logistic regression
@@ -32,14 +36,12 @@ dir.create(output_root, recursive = TRUE, showWarnings = FALSE)
 
 num_pcs <- 5L
 region_phenotypes <- list(
-  chr2_random100 = c("lactose_intolerance"),
-  LCT_region = c("TV", "qualification", "lactose_intolerance"),
-  PCSK9_region = c("TV", "qualification", "CHD")
+  chr2_random100 = c("TV"),
+  LCT_region = c("TV", "lactose_intolerance")
 )
 region_files <- c(
   chr2_random100 = "chr2_random100.raw",
-  LCT_region = "LCT_region_geno.raw",
-  PCSK9_region = "PCSK9_region_geno.raw"
+  LCT_region = "LCT_region_geno.raw"
 )
 
 message_time <- function(...) {

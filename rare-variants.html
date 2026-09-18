@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>rare-variants</title>
+<style>
+body { font-family: Aptos, Calibri, sans-serif; max-width: 860px; margin: 2rem auto; line-height: 1.45; color: #222; }
+code, pre { font-family: Consolas, monospace; }
+pre { background: #f6f6f6; padding: 0.8rem 1rem; overflow: auto; }
+h1, h2 { font-weight: 600; }
+</style>
+</head>
+<body>
+<h1>rare-variants</h1>
+<p>This repository contains the scripts used for the analyses reported in the paper. Individual-level UK Biobank data are not included. The study used application 98032.</p>
+
+<h2>What is shared</h2>
+<ul>
+<li>Analysis scripts for the manuscript UK Biobank analyses. These require local UK Biobank files under <code>data/</code>.</li>
+<li>Variant-level association results and other summary tables in <code>summary/</code>. These do not contain participant identifiers.</li>
+<li>The simulation script and deposited simulation summaries. These can be run without UK Biobank access.</li>
+</ul>
+
+<h2>What is not shared</h2>
+<p>Genotypes, phenotypes, principal components, participant IDs, and matched-set membership files are omitted. See <code>data/README.md</code> for the files an approved UK Biobank user needs to place locally.</p>
+
+<h2>Install</h2>
+<pre>conda env create -f env.yml
+conda activate rare-variants</pre>
+
+<h2>Simulation</h2>
+<pre>Rscript simulation/revised_oracle_matching_simulation.R --calibrated --n-pcs=5 --n-iter=1000 --N=50000 --max-matched-cases=2500</pre>
+<p>A completed copy of this run is in <code>summary/simulation/</code>.</p>
+
+<p>The R Markdown source for this overview is <code>rare-variants.Rmd</code>.</p>
+</body>
+</html>

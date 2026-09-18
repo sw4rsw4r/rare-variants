@@ -1,0 +1,343 @@
+ANALYSIS	SNP	RATIO	N_INFORMATIVE_STRATA	MATCHED_MAC	STATUS	N_INFORMATIVE_1TO6	PERCENT_OF_1TO6
+LCT/TV rare variants	rs75455428_T	1:6	1354	1427	ok	1354	100
+LCT/TV rare variants	rs75455428_T	1:4	1001	1041	ok	1354	73.9290989660266
+LCT/TV rare variants	rs75455428_T	1:1	412	426	ok	1354	30.4283604135894
+LCT/TV rare variants	rs17653534_C	1:1	3	3	ok	9	33.3333333333333
+LCT/TV rare variants	rs17653534_C	1:6	9	9	ok	9	100
+LCT/TV rare variants	rs17653534_C	1:4	5	5	ok	9	55.5555555555556
+LCT/TV rare variants	rs201063365_C	1:1	67	67	ok	236	28.3898305084746
+LCT/TV rare variants	rs201063365_C	1:4	166	166	ok	236	70.3389830508475
+LCT/TV rare variants	rs201063365_C	1:6	236	236	ok	236	100
+LCT/TV rare variants	rs10192827_A	1:1	0	0	no_within_stratum_variation	0	NA
+LCT/TV rare variants	rs10192827_A	1:4	0	0	no_within_stratum_variation	0	NA
+LCT/TV rare variants	rs10192827_A	1:6	0	0	no_within_stratum_variation	0	NA
+LCT/TV rare variants	rs146614143_T	1:1	0	0	no_within_stratum_variation	0	NA
+LCT/TV rare variants	rs146614143_T	1:4	0	0	no_within_stratum_variation	0	NA
+LCT/TV rare variants	rs146614143_T	1:6	0	0	no_within_stratum_variation	0	NA
+LCT/TV rare variants	rs147495948_C	1:1	25	25	ok	76	32.8947368421053
+LCT/TV rare variants	rs147495948_C	1:4	58	58	ok	76	76.3157894736842
+LCT/TV rare variants	rs147495948_C	1:6	76	76	ok	76	100
+LCT/TV rare variants	rs148838160_C	1:1	46	46	ok	145	31.7241379310345
+LCT/TV rare variants	rs148838160_C	1:4	104	104	ok	145	71.7241379310345
+LCT/TV rare variants	rs148838160_C	1:6	145	148	ok	145	100
+LCT/TV rare variants	rs146467199_T	1:1	61	61	ok	171	35.672514619883
+LCT/TV rare variants	rs146467199_T	1:4	137	138	ok	171	80.1169590643275
+LCT/TV rare variants	rs146467199_T	1:6	171	172	ok	171	100
+LCT/TV rare variants	rs116434156_T	1:1	424	430	ok	1392	30.4597701149425
+LCT/TV rare variants	rs116434156_T	1:4	995	1037	ok	1392	71.4798850574713
+LCT/TV rare variants	rs116434156_T	1:6	1392	1464	ok	1392	100
+LCT/TV rare variants	rs148613967_C	1:1	44	44	ok	152	28.9473684210526
+LCT/TV rare variants	rs148613967_C	1:4	107	107	ok	152	70.3947368421053
+LCT/TV rare variants	rs148613967_C	1:6	152	153	ok	152	100
+LCT/TV rare variants	rs141448886_C	1:1	249	249	ok	834	29.8561151079137
+LCT/TV rare variants	rs141448886_C	1:4	615	623	ok	834	73.7410071942446
+LCT/TV rare variants	rs141448886_C	1:6	834	854	ok	834	100
+LCT/TV rare variants	rs61750436_T	1:1	141	143	ok	479	29.4363256784969
+LCT/TV rare variants	rs61750436_T	1:4	358	363	ok	479	74.7390396659708
+LCT/TV rare variants	rs61750436_T	1:6	479	485	ok	479	100
+LCT/TV rare variants	rs61752701_A	1:4	111	111	ok	147	75.5102040816327
+LCT/TV rare variants	rs61752701_A	1:1	40	40	ok	147	27.2108843537415
+LCT/TV rare variants	rs61752701_A	1:6	147	147	ok	147	100
+LCT/TV rare variants	rs4988141_A	1:6	706	731	ok	706	100
+LCT/TV rare variants	rs4988141_A	1:4	496	509	ok	706	70.2549575070822
+LCT/TV rare variants	rs4988141_A	1:1	206	212	ok	706	29.1784702549575
+Chromosome 2/TV rare variants	rs28910598_A	1:6	780	795	ok	780	100
+Chromosome 2/TV rare variants	rs28910598_A	1:1	226	226	ok	780	28.974358974359
+Chromosome 2/TV rare variants	rs28910598_A	1:4	563	571	ok	780	72.1794871794872
+Chromosome 2/TV rare variants	rs138289170_T	1:1	171	171	ok	552	30.9782608695652
+Chromosome 2/TV rare variants	rs138289170_T	1:4	417	425	ok	552	75.5434782608696
+Chromosome 2/TV rare variants	rs138289170_T	1:6	552	571	ok	552	100
+Chromosome 2/TV rare variants	rs200127189_A	1:4	31	32	ok	47	65.9574468085106
+Chromosome 2/TV rare variants	rs200127189_A	1:1	11	11	ok	47	23.4042553191489
+Chromosome 2/TV rare variants	rs200127189_A	1:6	47	48	ok	47	100
+Chromosome 2/TV rare variants	rs200086179_T	1:1	142	144	ok	424	33.4905660377358
+Chromosome 2/TV rare variants	rs200086179_T	1:4	314	319	ok	424	74.0566037735849
+Chromosome 2/TV rare variants	rs200086179_T	1:6	424	433	ok	424	100
+Chromosome 2/TV rare variants	rs147322367_A	1:1	370	372	ok	1264	29.2721518987342
+Chromosome 2/TV rare variants	rs147322367_A	1:6	1264	1330	ok	1264	100
+Chromosome 2/TV rare variants	rs147322367_A	1:4	931	964	ok	1264	73.6550632911392
+Chromosome 2/TV rare variants	rs76223892_C	1:1	382	387	ok	1287	29.6814296814297
+Chromosome 2/TV rare variants	rs76223892_C	1:4	934	960	ok	1287	72.5718725718726
+Chromosome 2/TV rare variants	rs76223892_C	1:6	1287	1348	ok	1287	100
+Chromosome 2/TV rare variants	rs75662974_A	1:4	902	929	ok	1259	71.6441620333598
+Chromosome 2/TV rare variants	rs75662974_A	1:6	1259	1316	ok	1259	100
+Chromosome 2/TV rare variants	rs75662974_A	1:1	364	366	ok	1259	28.9118347895155
+Chromosome 2/TV rare variants	rs145912850_A	1:1	264	270	ok	911	28.9791437980242
+Chromosome 2/TV rare variants	rs145912850_A	1:4	666	681	ok	911	73.1064763995609
+Chromosome 2/TV rare variants	rs145912850_A	1:6	911	945	ok	911	100
+Chromosome 2/TV rare variants	rs150189609_T	1:1	26	27	ok	66	39.3939393939394
+Chromosome 2/TV rare variants	rs150189609_T	1:4	51	52	ok	66	77.2727272727273
+Chromosome 2/TV rare variants	rs150189609_T	1:6	66	67	ok	66	100
+Chromosome 2/TV rare variants	rs116762561_G	1:1	567	579	ok	1820	31.1538461538462
+Chromosome 2/TV rare variants	rs116762561_G	1:4	1340	1407	ok	1820	73.6263736263736
+Chromosome 2/TV rare variants	rs116762561_G	1:6	1820	1934	ok	1820	100
+Chromosome 2/TV rare variants	rs138966725_T	1:1	53	53	ok	179	29.608938547486
+Chromosome 2/TV rare variants	rs138966725_T	1:4	132	132	ok	179	73.7430167597765
+Chromosome 2/TV rare variants	rs138966725_T	1:6	179	179	ok	179	100
+Chromosome 2/TV rare variants	rs80356595_A	1:1	11	11	ok	41	26.8292682926829
+Chromosome 2/TV rare variants	rs80356595_A	1:4	31	31	ok	41	75.609756097561
+Chromosome 2/TV rare variants	rs80356595_A	1:6	41	41	ok	41	100
+Chromosome 2/TV rare variants	rs112421794_A	1:1	496	508	ok	1706	29.073856975381
+Chromosome 2/TV rare variants	rs112421794_A	1:4	1213	1255	ok	1706	71.1019929660023
+Chromosome 2/TV rare variants	rs112421794_A	1:6	1706	1802	ok	1706	100
+Chromosome 2/TV rare variants	rs41288797_A	1:6	181	182	ok	181	100
+Chromosome 2/TV rare variants	rs41288797_A	1:1	53	53	ok	181	29.2817679558011
+Chromosome 2/TV rare variants	rs41288797_A	1:4	136	136	ok	181	75.1381215469613
+Chromosome 2/TV rare variants	rs149117895_A	1:1	475	485	ok	1602	29.6504369538077
+Chromosome 2/TV rare variants	rs149117895_A	1:4	1162	1217	ok	1602	72.5343320848939
+Chromosome 2/TV rare variants	rs149117895_A	1:6	1602	1704	ok	1602	100
+Chromosome 2/TV rare variants	rs114296060_T	1:4	1057	1095	ok	1446	73.0982019363762
+Chromosome 2/TV rare variants	rs114296060_T	1:1	414	428	ok	1446	28.6307053941909
+Chromosome 2/TV rare variants	rs114296060_T	1:6	1446	1520	ok	1446	100
+Chromosome 2/TV rare variants	rs114844691_T	1:1	384	390	ok	1348	28.486646884273
+Chromosome 2/TV rare variants	rs114844691_T	1:4	966	999	ok	1348	71.6617210682493
+Chromosome 2/TV rare variants	rs114844691_T	1:6	1348	1418	ok	1348	100
+Chromosome 2/TV rare variants	rs147714435_A	1:1	65	65	ok	235	27.6595744680851
+Chromosome 2/TV rare variants	rs147714435_A	1:6	235	236	ok	235	100
+Chromosome 2/TV rare variants	rs147714435_A	1:4	166	167	ok	235	70.6382978723404
+Chromosome 2/TV rare variants	rs140521893_T	1:1	65	65	ok	234	27.7777777777778
+Chromosome 2/TV rare variants	rs140521893_T	1:4	169	169	ok	234	72.2222222222222
+Chromosome 2/TV rare variants	rs140521893_T	1:6	234	234	ok	234	100
+Chromosome 2/TV rare variants	rs79352534_T	1:4	1089	1137	ok	1498	72.6969292389853
+Chromosome 2/TV rare variants	rs79352534_T	1:6	1498	1592	ok	1498	100
+Chromosome 2/TV rare variants	rs79352534_T	1:1	443	447	ok	1498	29.5727636849132
+Chromosome 2/TV rare variants	rs115184364_A	1:6	1856	1983	ok	1856	100
+Chromosome 2/TV rare variants	rs115184364_A	1:1	551	558	ok	1856	29.6875
+Chromosome 2/TV rare variants	rs115184364_A	1:4	1345	1410	ok	1856	72.4676724137931
+Chromosome 2/TV rare variants	rs147328832_A	1:1	235	238	ok	791	29.7092288242731
+Chromosome 2/TV rare variants	rs147328832_A	1:4	578	595	ok	791	73.0720606826801
+Chromosome 2/TV rare variants	rs147328832_A	1:6	791	819	ok	791	100
+Chromosome 2/TV rare variants	rs137852987_A	1:4	145	145	ok	204	71.078431372549
+Chromosome 2/TV rare variants	rs137852987_A	1:1	59	59	ok	204	28.921568627451
+Chromosome 2/TV rare variants	rs137852987_A	1:6	204	205	ok	204	100
+Chromosome 2/TV rare variants	rs73929406_G	1:1	46	57	ok	150	30.6666666666667
+Chromosome 2/TV rare variants	rs73929406_G	1:4	117	144	ok	150	78
+Chromosome 2/TV rare variants	rs73929406_G	1:6	150	200	ok	150	100
+Chromosome 2/TV rare variants	rs78301266_T	1:1	572	587	ok	1930	29.6373056994819
+Chromosome 2/TV rare variants	rs78301266_T	1:6	1930	2064	ok	1930	100
+Chromosome 2/TV rare variants	rs78301266_T	1:4	1407	1473	ok	1930	72.9015544041451
+Chromosome 2/TV rare variants	rs115473020_C	1:1	12	14	ok	60	20
+Chromosome 2/TV rare variants	rs115473020_C	1:4	42	43	ok	60	70
+Chromosome 2/TV rare variants	rs115473020_C	1:6	60	63	ok	60	100
+Chromosome 2/TV rare variants	rs17217723_G	1:4	28	28	ok	41	68.2926829268293
+Chromosome 2/TV rare variants	rs17217723_G	1:6	41	41	ok	41	100
+Chromosome 2/TV rare variants	rs17217723_G	1:1	7	7	ok	41	17.0731707317073
+Chromosome 2/TV rare variants	rs12612388_C	1:1	513	540	ok	1557	32.9479768786127
+Chromosome 2/TV rare variants	rs12612388_C	1:4	1153	1255	ok	1557	74.0526653821452
+Chromosome 2/TV rare variants	rs12612388_C	1:6	1557	1777	ok	1557	100
+Chromosome 2/TV rare variants	rs34625968_A	1:1	11	11	ok	36	30.5555555555556
+Chromosome 2/TV rare variants	rs34625968_A	1:4	27	27	ok	36	75
+Chromosome 2/TV rare variants	rs34625968_A	1:6	36	37	ok	36	100
+Chromosome 2/TV rare variants	rs140678678_T	1:1	226	233	ok	823	27.460510328068
+Chromosome 2/TV rare variants	rs140678678_T	1:4	579	591	ok	823	70.3523693803159
+Chromosome 2/TV rare variants	rs140678678_T	1:6	823	844	ok	823	100
+Chromosome 2/TV rare variants	rs182814773_G	1:1	14	14	ok	60	23.3333333333333
+Chromosome 2/TV rare variants	rs182814773_G	1:4	39	39	ok	60	65
+Chromosome 2/TV rare variants	rs182814773_G	1:6	60	61	ok	60	100
+Chromosome 2/TV rare variants	rs117619104_C	1:1	85	92	ok	257	33.0739299610895
+Chromosome 2/TV rare variants	rs117619104_C	1:4	193	234	ok	257	75.0972762645914
+Chromosome 2/TV rare variants	rs117619104_C	1:6	257	337	ok	257	100
+Chromosome 2/TV rare variants	rs2946377_G	1:1	416	424	ok	1426	29.1725105189341
+Chromosome 2/TV rare variants	rs2946377_G	1:4	1030	1066	ok	1426	72.2300140252454
+Chromosome 2/TV rare variants	rs2946377_G	1:6	1426	1512	ok	1426	100
+Chromosome 2/TV rare variants	rs79968431_A	1:6	1545	1634	ok	1545	100
+Chromosome 2/TV rare variants	rs79968431_A	1:1	489	501	ok	1545	31.6504854368932
+Chromosome 2/TV rare variants	rs79968431_A	1:4	1145	1191	ok	1545	74.1100323624595
+Chromosome 2/TV rare variants	rs138592466_T	1:1	104	106	ok	346	30.0578034682081
+Chromosome 2/TV rare variants	rs138592466_T	1:4	269	272	ok	346	77.7456647398844
+Chromosome 2/TV rare variants	rs138592466_T	1:6	346	352	ok	346	100
+Chromosome 2/TV rare variants	rs139834642_G	1:4	30	30	ok	42	71.4285714285714
+Chromosome 2/TV rare variants	rs139834642_G	1:1	15	15	ok	42	35.7142857142857
+Chromosome 2/TV rare variants	rs139834642_G	1:6	42	42	ok	42	100
+Chromosome 2/TV rare variants	rs201694227_A	1:1	5	5	ok	20	25
+Chromosome 2/TV rare variants	rs201694227_A	1:4	15	17	ok	20	75
+Chromosome 2/TV rare variants	rs201694227_A	1:6	20	22	ok	20	100
+Chromosome 2/TV rare variants	rs201074268_A	1:1	197	197	ok	684	28.8011695906433
+Chromosome 2/TV rare variants	rs201074268_A	1:6	684	697	ok	684	100
+Chromosome 2/TV rare variants	rs201074268_A	1:4	488	495	ok	684	71.3450292397661
+Chromosome 2/TV rare variants	rs56050689_A	1:1	410	414	ok	1476	27.7777777777778
+Chromosome 2/TV rare variants	rs56050689_A	1:4	1036	1065	ok	1476	70.189701897019
+Chromosome 2/TV rare variants	rs56050689_A	1:6	1476	1532	ok	1476	100
+Chromosome 2/TV rare variants	rs190924518_T	1:4	22	22	ok	33	66.6666666666667
+Chromosome 2/TV rare variants	rs190924518_T	1:6	33	36	ok	33	100
+Chromosome 2/TV rare variants	rs190924518_T	1:1	11	11	ok	33	33.3333333333333
+Chromosome 2/TV rare variants	rs199684823_T	1:6	40	40	ok	40	100
+Chromosome 2/TV rare variants	rs199684823_T	1:1	12	12	ok	40	30
+Chromosome 2/TV rare variants	rs199684823_T	1:4	33	33	ok	40	82.5
+Chromosome 2/TV rare variants	rs61734034_T	1:1	50	59	ok	172	29.0697674418605
+Chromosome 2/TV rare variants	rs61734034_T	1:4	128	156	ok	172	74.4186046511628
+Chromosome 2/TV rare variants	rs61734034_T	1:6	172	223	ok	172	100
+Chromosome 2/TV rare variants	rs74514752_A	1:4	1278	1336	ok	1779	71.8381112984823
+Chromosome 2/TV rare variants	rs74514752_A	1:1	541	550	ok	1779	30.4103428892636
+Chromosome 2/TV rare variants	rs74514752_A	1:6	1779	1893	ok	1779	100
+Chromosome 2/TV rare variants	rs145146615_T	1:1	455	474	ok	1619	28.1037677578752
+Chromosome 2/TV rare variants	rs145146615_T	1:4	1160	1212	ok	1619	71.6491661519456
+Chromosome 2/TV rare variants	rs145146615_T	1:6	1619	1717	ok	1619	100
+Chromosome 2/TV rare variants	rs150321775_G	1:1	120	120	ok	446	26.9058295964126
+Chromosome 2/TV rare variants	rs150321775_G	1:6	446	449	ok	446	100
+Chromosome 2/TV rare variants	rs150321775_G	1:4	313	315	ok	446	70.1793721973094
+Chromosome 2/TV rare variants	rs200619760_C	1:1	69	69	ok	243	28.3950617283951
+Chromosome 2/TV rare variants	rs200619760_C	1:4	154	154	ok	243	63.3744855967078
+Chromosome 2/TV rare variants	rs200619760_C	1:6	243	245	ok	243	100
+Chromosome 2/TV rare variants	rs200928764_A	1:4	14	15	ok	25	56
+Chromosome 2/TV rare variants	rs200928764_A	1:6	25	27	ok	25	100
+Chromosome 2/TV rare variants	rs200928764_A	1:1	8	8	ok	25	32
+Chromosome 2/TV rare variants	rs114951352_A	1:1	428	440	ok	1395	30.6810035842294
+Chromosome 2/TV rare variants	rs114951352_A	1:4	1003	1043	ok	1395	71.8996415770609
+Chromosome 2/TV rare variants	rs114951352_A	1:6	1395	1471	ok	1395	100
+Chromosome 2/TV rare variants	rs77677422_T	1:1	328	334	ok	1170	28.034188034188
+Chromosome 2/TV rare variants	rs77677422_T	1:4	853	902	ok	1170	72.9059829059829
+Chromosome 2/TV rare variants	rs77677422_T	1:6	1170	1263	ok	1170	100
+Chromosome 2/TV rare variants	rs141624732_T	1:1	56	56	ok	201	27.8606965174129
+Chromosome 2/TV rare variants	rs141624732_T	1:4	138	138	ok	201	68.6567164179104
+Chromosome 2/TV rare variants	rs141624732_T	1:6	201	202	ok	201	100
+Chromosome 2/TV rare variants	rs17036091_C	1:1	64	68	ok	199	32.1608040201005
+Chromosome 2/TV rare variants	rs17036091_C	1:4	144	157	ok	199	72.3618090452261
+Chromosome 2/TV rare variants	rs17036091_C	1:6	199	222	ok	199	100
+Chromosome 2/TV rare variants	rs61730706_A	1:1	232	233	ok	742	31.266846361186
+Chromosome 2/TV rare variants	rs61730706_A	1:4	540	548	ok	742	72.7762803234501
+Chromosome 2/TV rare variants	rs61730706_A	1:6	742	757	ok	742	100
+Chromosome 2/TV rare variants	rs13017657_A	1:1	364	368	ok	1259	28.9118347895155
+Chromosome 2/TV rare variants	rs13017657_A	1:4	888	916	ok	1259	70.5321683876092
+Chromosome 2/TV rare variants	rs13017657_A	1:6	1259	1331	ok	1259	100
+Chromosome 2/TV rare variants	rs74698222_T	1:6	1119	1336	ok	1119	100
+Chromosome 2/TV rare variants	rs74698222_T	1:1	345	364	ok	1119	30.8310991957105
+Chromosome 2/TV rare variants	rs74698222_T	1:4	837	945	ok	1119	74.798927613941
+Chromosome 2/TV rare variants	rs77746492_C	1:1	455	468	ok	1647	27.6259866423801
+Chromosome 2/TV rare variants	rs77746492_C	1:4	1204	1248	ok	1647	73.1026108075288
+Chromosome 2/TV rare variants	rs77746492_C	1:6	1647	1742	ok	1647	100
+Chromosome 2/TV rare variants	rs10195756_A	1:4	1019	1118	ok	1342	75.9314456035767
+Chromosome 2/TV rare variants	rs10195756_A	1:1	404	428	ok	1342	30.1043219076006
+Chromosome 2/TV rare variants	rs10195756_A	1:6	1342	1552	ok	1342	100
+Chromosome 2/TV rare variants	rs76547788_A	1:1	496	513	ok	1726	28.7369640787949
+Chromosome 2/TV rare variants	rs76547788_A	1:4	1252	1314	ok	1726	72.5376593279258
+Chromosome 2/TV rare variants	rs76547788_A	1:6	1726	1842	ok	1726	100
+Chromosome 2/TV rare variants	rs148407740_T	1:1	506	519	ok	1564	32.3529411764706
+Chromosome 2/TV rare variants	rs148407740_T	1:6	1564	1662	ok	1564	100
+Chromosome 2/TV rare variants	rs148407740_T	1:4	1166	1221	ok	1564	74.5524296675192
+Chromosome 2/TV rare variants	rs201767727_G	1:1	80	80	ok	286	27.972027972028
+Chromosome 2/TV rare variants	rs201767727_G	1:4	199	202	ok	286	69.5804195804196
+Chromosome 2/TV rare variants	rs201767727_G	1:6	286	290	ok	286	100
+Chromosome 2/TV rare variants	rs72866734_A	1:4	567	575	ok	785	72.2292993630573
+Chromosome 2/TV rare variants	rs72866734_A	1:6	785	802	ok	785	100
+Chromosome 2/TV rare variants	rs72866734_A	1:1	232	233	ok	785	29.5541401273885
+Chromosome 2/TV rare variants	rs113023766_C	1:6	681	695	ok	681	100
+Chromosome 2/TV rare variants	rs113023766_C	1:1	169	171	ok	681	24.8164464023495
+Chromosome 2/TV rare variants	rs113023766_C	1:4	461	468	ok	681	67.6945668135095
+Chromosome 2/TV rare variants	rs115768810_A	1:1	316	318	ok	1042	30.3262955854127
+Chromosome 2/TV rare variants	rs115768810_A	1:4	765	787	ok	1042	73.4165067178503
+Chromosome 2/TV rare variants	rs115768810_A	1:6	1042	1085	ok	1042	100
+Chromosome 2/TV rare variants	rs79037278_C	1:4	966	999	ok	1300	74.3076923076923
+Chromosome 2/TV rare variants	rs79037278_C	1:1	373	379	ok	1300	28.6923076923077
+Chromosome 2/TV rare variants	rs79037278_C	1:6	1300	1366	ok	1300	100
+Chromosome 2/TV rare variants	rs115718408_C	1:1	526	536	ok	1682	31.2722948870392
+Chromosome 2/TV rare variants	rs115718408_C	1:4	1263	1311	ok	1682	75.089179548157
+Chromosome 2/TV rare variants	rs115718408_C	1:6	1682	1782	ok	1682	100
+Chromosome 2/TV rare variants	rs117621055_G	1:1	25	29	ok	107	23.3644859813084
+Chromosome 2/TV rare variants	rs117621055_G	1:6	107	125	ok	107	100
+Chromosome 2/TV rare variants	rs117621055_G	1:4	77	85	ok	107	71.9626168224299
+Chromosome 2/TV rare variants	rs150112597_C	1:1	178	178	ok	575	30.9565217391304
+Chromosome 2/TV rare variants	rs150112597_C	1:4	418	420	ok	575	72.695652173913
+Chromosome 2/TV rare variants	rs150112597_C	1:6	575	580	ok	575	100
+Chromosome 2/TV rare variants	rs181104321_T	1:4	211	211	ok	301	70.0996677740864
+Chromosome 2/TV rare variants	rs181104321_T	1:6	301	304	ok	301	100
+Chromosome 2/TV rare variants	rs181104321_T	1:1	74	74	ok	301	24.5847176079734
+Chromosome 2/TV rare variants	rs199895260_T	1:1	165	165	ok	585	28.2051282051282
+Chromosome 2/TV rare variants	rs199895260_T	1:4	426	436	ok	585	72.8205128205128
+Chromosome 2/TV rare variants	rs199895260_T	1:6	585	597	ok	585	100
+Chromosome 2/TV rare variants	rs200212521_G	1:1	84	84	ok	302	27.8145695364238
+Chromosome 2/TV rare variants	rs200212521_G	1:4	222	224	ok	302	73.5099337748344
+Chromosome 2/TV rare variants	rs200212521_G	1:6	302	306	ok	302	100
+Chromosome 2/TV rare variants	rs34618570_A	1:1	398	402	ok	1428	27.8711484593838
+Chromosome 2/TV rare variants	rs34618570_A	1:4	1044	1078	ok	1428	73.109243697479
+Chromosome 2/TV rare variants	rs34618570_A	1:6	1428	1497	ok	1428	100
+Chromosome 2/TV rare variants	rs72648915_T	1:1	106	139	ok	262	40.4580152671756
+Chromosome 2/TV rare variants	rs72648915_T	1:4	217	353	ok	262	82.824427480916
+Chromosome 2/TV rare variants	rs72648915_T	1:6	262	506	ok	262	100
+Chromosome 2/TV rare variants	rs146970027_C	1:1	45	45	ok	167	26.9461077844311
+Chromosome 2/TV rare variants	rs146970027_C	1:4	122	126	ok	167	73.0538922155689
+Chromosome 2/TV rare variants	rs146970027_C	1:6	167	171	ok	167	100
+Chromosome 2/TV rare variants	rs114595877_G	1:1	28	30	ok	76	36.8421052631579
+Chromosome 2/TV rare variants	rs114595877_G	1:4	52	53	ok	76	68.4210526315789
+Chromosome 2/TV rare variants	rs114595877_G	1:6	76	77	ok	76	100
+Chromosome 2/TV rare variants	rs147121882_G	1:6	511	521	ok	511	100
+Chromosome 2/TV rare variants	rs147121882_G	1:1	146	147	ok	511	28.5714285714286
+Chromosome 2/TV rare variants	rs147121882_G	1:4	366	372	ok	511	71.6242661448141
+Chromosome 2/TV rare variants	rs76382017_A	1:1	507	515	ok	1780	28.4831460674157
+Chromosome 2/TV rare variants	rs76382017_A	1:4	1267	1311	ok	1780	71.1797752808989
+Chromosome 2/TV rare variants	rs76382017_A	1:6	1780	1878	ok	1780	100
+Chromosome 2/TV rare variants	rs116605197_G	1:4	1055	1100	ok	1489	70.8529214237743
+Chromosome 2/TV rare variants	rs116605197_G	1:1	436	445	ok	1489	29.2813969106783
+Chromosome 2/TV rare variants	rs116605197_G	1:6	1489	1572	ok	1489	100
+Chromosome 2/TV rare variants	rs58286283_T	1:1	88	111	ok	232	37.9310344827586
+Chromosome 2/TV rare variants	rs58286283_T	1:4	196	286	ok	232	84.4827586206897
+Chromosome 2/TV rare variants	rs58286283_T	1:6	232	380	ok	232	100
+Chromosome 2/TV rare variants	rs147727753_C	1:1	534	548	ok	1736	30.7603686635945
+Chromosome 2/TV rare variants	rs147727753_C	1:6	1736	1843	ok	1736	100
+Chromosome 2/TV rare variants	rs147727753_C	1:4	1272	1331	ok	1736	73.2718894009217
+Chromosome 2/TV rare variants	rs192024023_A	1:1	12	12	ok	47	25.531914893617
+Chromosome 2/TV rare variants	rs192024023_A	1:4	28	31	ok	47	59.5744680851064
+Chromosome 2/TV rare variants	rs192024023_A	1:6	47	52	ok	47	100
+Chromosome 2/TV rare variants	rs147294932_A	1:4	122	123	ok	175	69.7142857142857
+Chromosome 2/TV rare variants	rs147294932_A	1:6	175	177	ok	175	100
+Chromosome 2/TV rare variants	rs147294932_A	1:1	53	53	ok	175	30.2857142857143
+Chromosome 2/TV rare variants	rs115221503_A	1:6	1299	1365	ok	1299	100
+Chromosome 2/TV rare variants	rs115221503_A	1:1	364	374	ok	1299	28.0215550423403
+Chromosome 2/TV rare variants	rs115221503_A	1:4	919	955	ok	1299	70.7467282525019
+Chromosome 2/TV rare variants	rs200129236_A	1:1	12	12	ok	42	28.5714285714286
+Chromosome 2/TV rare variants	rs200129236_A	1:4	32	34	ok	42	76.1904761904762
+Chromosome 2/TV rare variants	rs200129236_A	1:6	42	45	ok	42	100
+Chromosome 2/TV rare variants	rs180953382_C	1:4	159	159	ok	225	70.6666666666667
+Chromosome 2/TV rare variants	rs180953382_C	1:1	57	57	ok	225	25.3333333333333
+Chromosome 2/TV rare variants	rs180953382_C	1:6	225	226	ok	225	100
+Chromosome 2/TV rare variants	rs55876679_T	1:1	104	104	ok	408	25.4901960784314
+Chromosome 2/TV rare variants	rs55876679_T	1:4	278	280	ok	408	68.1372549019608
+Chromosome 2/TV rare variants	rs55876679_T	1:6	408	412	ok	408	100
+Chromosome 2/TV rare variants	rs79412450_C	1:1	435	442	ok	1459	29.8149417409184
+Chromosome 2/TV rare variants	rs79412450_C	1:6	1459	1538	ok	1459	100
+Chromosome 2/TV rare variants	rs79412450_C	1:4	1060	1106	ok	1459	72.6525017135024
+Chromosome 2/TV rare variants	rs78236491_T	1:1	228	232	ok	840	27.1428571428571
+Chromosome 2/TV rare variants	rs78236491_T	1:4	582	594	ok	840	69.2857142857143
+Chromosome 2/TV rare variants	rs78236491_T	1:6	840	869	ok	840	100
+Chromosome 2/TV rare variants	rs35731955_A	1:4	401	690	ok	482	83.195020746888
+Chromosome 2/TV rare variants	rs35731955_A	1:6	482	982	ok	482	100
+Chromosome 2/TV rare variants	rs35731955_A	1:1	212	277	ok	482	43.9834024896266
+Chromosome 2/TV rare variants	rs77491634_C	1:1	411	424	ok	1386	29.6536796536797
+Chromosome 2/TV rare variants	rs77491634_C	1:4	997	1041	ok	1386	71.9336219336219
+Chromosome 2/TV rare variants	rs77491634_C	1:6	1386	1469	ok	1386	100
+Chromosome 2/TV rare variants	rs137891000_G	1:1	282	286	ok	1045	26.9856459330144
+Chromosome 2/TV rare variants	rs137891000_G	1:4	731	752	ok	1045	69.9521531100478
+Chromosome 2/TV rare variants	rs137891000_G	1:6	1045	1096	ok	1045	100
+Chromosome 2/TV rare variants	rs79979025_C	1:1	14	14	ok	61	22.9508196721311
+Chromosome 2/TV rare variants	rs79979025_C	1:4	39	42	ok	61	63.9344262295082
+Chromosome 2/TV rare variants	rs79979025_C	1:6	61	65	ok	61	100
+Chromosome 2/TV rare variants	rs115394581_T	1:1	339	347	ok	1284	26.4018691588785
+Chromosome 2/TV rare variants	rs115394581_T	1:4	906	934	ok	1284	70.5607476635514
+Chromosome 2/TV rare variants	rs115394581_T	1:6	1284	1349	ok	1284	100
+Chromosome 2/TV rare variants	rs139381111_G	1:1	19	19	ok	59	32.2033898305085
+Chromosome 2/TV rare variants	rs139381111_G	1:4	36	36	ok	59	61.0169491525424
+Chromosome 2/TV rare variants	rs139381111_G	1:6	59	59	ok	59	100
+Chromosome 2/TV rare variants	rs61736676_T	1:1	138	164	ok	330	41.8181818181818
+Chromosome 2/TV rare variants	rs61736676_T	1:4	264	388	ok	330	80
+Chromosome 2/TV rare variants	rs61736676_T	1:6	330	564	ok	330	100
+Chromosome 2/TV rare variants	rs72980280_A	1:6	1733	1845	ok	1733	100
+Chromosome 2/TV rare variants	rs72980280_A	1:1	534	543	ok	1733	30.8136180034622
+Chromosome 2/TV rare variants	rs72980280_A	1:4	1288	1344	ok	1733	74.3219849971148
+Chromosome 2/TV rare variants	rs192783478_T	1:1	36	36	ok	129	27.906976744186
+Chromosome 2/TV rare variants	rs192783478_T	1:4	85	86	ok	129	65.8914728682171
+Chromosome 2/TV rare variants	rs192783478_T	1:6	129	130	ok	129	100
+Chromosome 2/TV rare variants	rs151214628_T	1:4	139	140	ok	215	64.6511627906977
+Chromosome 2/TV rare variants	rs151214628_T	1:1	60	60	ok	215	27.906976744186
+Chromosome 2/TV rare variants	rs151214628_T	1:6	215	216	ok	215	100
+Chromosome 2/TV rare variants	rs181027586_T	1:1	14	14	ok	61	22.9508196721311
+Chromosome 2/TV rare variants	rs181027586_T	1:4	48	55	ok	61	78.6885245901639
+Chromosome 2/TV rare variants	rs181027586_T	1:6	61	73	ok	61	100
+Chromosome 2/TV rare variants	rs34602615_G	1:1	16	21	ok	57	28.0701754385965
+Chromosome 2/TV rare variants	rs34602615_G	1:6	57	65	ok	57	100
+Chromosome 2/TV rare variants	rs34602615_G	1:4	44	49	ok	57	77.1929824561404
+Chromosome 2/TV rare variants	rs146148004_A	1:1	52	52	ok	195	26.6666666666667
+Chromosome 2/TV rare variants	rs146148004_A	1:4	141	141	ok	195	72.3076923076923
+Chromosome 2/TV rare variants	rs146148004_A	1:6	195	196	ok	195	100
+Chromosome 2/TV rare variants	rs189711563_G	1:4	84	85	ok	122	68.8524590163934
+Chromosome 2/TV rare variants	rs189711563_G	1:6	122	123	ok	122	100
+Chromosome 2/TV rare variants	rs189711563_G	1:1	46	48	ok	122	37.7049180327869

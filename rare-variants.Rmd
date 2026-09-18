@@ -1,0 +1,115 @@
+---
+title: "rare-variants"
+author: "Seongwon Hwang"
+date: "18-09-2026"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(warn = -1)
+```
+
+# Overview
+
+This repository contains the scripts used for the analyses reported in the paper. Cases were matched to controls on genetic PC1 through PC5 using Mahalanobis distance. Matched sets were analysed with CLR at ratios of 1:6, 1:4, and 1:1.
+
+The UK Biobank analyses used application 98032. Individual-level genotype and phenotype files are not in this repository. Variant-level association results and other summary tables are in `summary/`. The simulation does not require UK Biobank data.
+
+```{r}
+# Installed the following packages by running:
+# > conda env create -f env.yml
+# > conda activate rare-variants
+
+suppressMessages(library(ggplot2))
+suppressMessages(library(knitr))
+```
+
+# Data
+
+Place approved UK Biobank files under `data/` as described in `data/README.md`. Then build the phenotype ID lists used by the analysis scripts.
+
+```{r, eval=FALSE}
+source("R/utils.R")
+load_TV()
+load_lactose_intolerance()
+```
+
+UK Biobank field 1070 defined TV watching. Values coded as do not know or prefer not to answer were treated as missing. Values indicating less than 1h per day were coded as 0. The mean across visits was used, and a mean of at least 2h per day defined the case group. Lactose intolerance cases were ICD-10 codes beginning with E73 in field 41270, excluding E73.1. Controls were other participants with at least one field 41270 code.
+
+# Real data analyses
+
+These scripts expect the local UK Biobank files above. They write participant identifiers under `results/` and those files must stay local.
+
+- LCT region and TV watching, 15,000-case common pool, CLR 1:6: `analysis/00_CLR/018_lct_tv_15000_case_ratio6.R`
+- The same case pool at 1:4 and 1:1: `analysis/00_CLR/019_lct_tv_15000_common_pool_1to1_1to4.R`
+- LCT region and lactose intolerance: `analysis/00_CLR/016_lct_lactose_positive_control_1to1_1to4_1to6.R`
+- Chromosome 2 rare variants and TV watching: `analysis/00_CLR/023_chr2_random100_tv_15000_rare_chisq.R`
+- Rare-variant permutation in the TV panels: `analysis/00_CLR/021_lct_tv_15000_rare_permutation_matched.R` and `analysis/00_CLR/024_chr2_random100_tv_15000_rare_permutation.R`
+- PC1 through PC10 balance: `analysis/00_CLR/065_plot_pc1_pc10_combined_balance.R`
+- Assessment-centre balance from field 54: `analysis/00_CLR/059_analyze_recruitment_centre_balance.R`
+- Informative matched sets: `analysis/00_CLR/056_build_real_data_informative_strata_draft.R`
+
+Matching used MatchIt nearest-neighbour Mahalanobis distance on PC1 through PC5, without replacement. CLR used `survival::clogit` with `method = "exact"` and Wald chi-square(1) P values.
+
+# Summary tables
+
+The deposited files below contain no participant identifiers. They are enough to rebuild the manuscript comparisons without UK Biobank access.
+
+```{r}
+lct_tv <- read.delim("summary/real/lct_tv_comparison.tsv", check.names = FALSE)
+lactose <- read.delim("summary/real/lactose_comparison.tsv", check.names = FALSE)
+chr2 <- read.delim("summary/real/chr2_tv_comparison.tsv", check.names = FALSE)
+sim <- read.csv("summary/simulation/summary_metrics.csv", check.names = FALSE)
+rs4988235 <- read.delim("summary/real/rs4988235_positive_control.tsv", check.names = FALSE)
+
+lambda_gc <- function(chisq) {
+  median(as.numeric(chisq), na.rm = TRUE) / qchisq(0.5, 1)
+}
+
+kable(
+  data.frame(
+    Panel = c("LCT/TV", "Chromosome 2/TV", "LCT/lactose"),
+    N_variants = c(nrow(lct_tv), nrow(chr2), nrow(lactose)),
+    Lambda_unadjusted = c(
+      lambda_gc(lct_tv$CHISQ_PLAIN),
+      lambda_gc(chr2$CHISQ_PLAIN),
+      lambda_gc(lactose$CHISQ_PLAIN)
+    ),
+    Lambda_PC_adjusted = c(
+      lambda_gc(lct_tv$CHISQ_PC_ADJUSTED),
+      lambda_gc(chr2$CHISQ_PC_ADJUSTED),
+      lambda_gc(lactose$CHISQ_PC_ADJUSTED)
+    ),
+    Lambda_CLR_1to1 = c(
+      lambda_gc(lct_tv$CHISQ_1TO1),
+      lambda_gc(chr2$CHISQ_1TO1),
+      lambda_gc(lactose$CHISQ_1TO1)
+    )
+  ),
+  digits = 2,
+  caption = "Genomic inflation from deposited variant-level results."
+)
+
+kable(rs4988235, caption = "rs4988235-A association with lactose intolerance.")
+```
+
+# Simulation
+
+The manuscript simulation used 1,000 replicates of 50,000 individuals, PC1 through PC5, and a common pool of 2,500 cases at matching ratios 1:6, 1:4, and 1:1. Matched P values were score tests with the genotype coefficient set to zero.
+
+```{r, eval=FALSE}
+# Run from the repository root. This takes a long time.
+# Rscript simulation/revised_oracle_matching_simulation.R --calibrated --n-pcs=5 --n-iter=1000 --N=50000 --max-matched-cases=2500
+```
+
+Deposited simulation summaries are shown below.
+
+```{r}
+matching <- subset(sim, method == "Matching + CLR")
+kable(
+  matching[, c("scenario", "ratio_label", "rejection_rate", "lambda_gc", "n_valid")],
+  digits = 3,
+  caption = "Simulation Type I error and power for CLR after PC matching."
+)
+```
