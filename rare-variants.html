@@ -4,34 +4,38 @@
 <meta charset="utf-8">
 <title>rare-variants</title>
 <style>
-body { font-family: Aptos, Calibri, sans-serif; max-width: 860px; margin: 2rem auto; line-height: 1.45; color: #222; }
+body { font-family: Aptos, Calibri, sans-serif; max-width: 920px; margin: 2rem auto; line-height: 1.45; color: #222; padding: 0 1rem; }
+img { max-width: 100%; height: auto; border: 1px solid #eee; }
 code, pre { font-family: Consolas, monospace; }
 pre { background: #f6f6f6; padding: 0.8rem 1rem; overflow: auto; }
 h1, h2 { font-weight: 600; }
+figcaption { color: #555; font-size: 0.92rem; margin: 0.35rem 0 1.4rem; }
 </style>
 </head>
 <body>
 <h1>rare-variants</h1>
-<p>This repository contains the scripts used for the analyses reported in the paper. Individual-level UK Biobank data are not included. The study used application 98032.</p>
+<p>Scripts and summary tables for the analyses reported in the paper. Individual-level UK Biobank data are not included. The study used application 98032. The figures below are rebuilt from the deposited files in <code>summary/</code>.</p>
 
-<h2>What is shared</h2>
-<ul>
-<li>Analysis scripts for the manuscript UK Biobank analyses. These require local UK Biobank files under <code>data/</code>.</li>
-<li>Variant-level association results and other summary tables in <code>summary/</code>. These do not contain participant identifiers.</li>
-<li>The simulation script and deposited simulation summaries. These can be run without UK Biobank access.</li>
-</ul>
+<h2>UK Biobank negative and positive controls</h2>
+<p><img src="overview/qq_lct_tv.png" alt="LCT and TV watching QQ plot"></p>
+<figcaption>LCT region variants and TV watching. Unadjusted logistic regression is truncated at 8 on the observed axis.</figcaption>
+<p><img src="overview/qq_chr2_tv.png" alt="Chromosome 2 and TV watching QQ plot"></p>
+<figcaption>100 rare variants from chromosome 2 and TV watching.</figcaption>
+<p><img src="overview/rs4988235.png" alt="rs4988235-A odds ratios"></p>
+<figcaption>rs4988235-A and lactose intolerance. Points are odds ratios per A allele with 95% confidence intervals.</figcaption>
 
-<h2>What is not shared</h2>
-<p>Genotypes, phenotypes, principal components, participant IDs, and matched-set membership files are omitted. See <code>data/README.md</code> for the files an approved UK Biobank user needs to place locally.</p>
-
-<h2>Install</h2>
-<pre>conda env create -f env.yml
-conda activate rare-variants</pre>
+<h2>Balance after matching</h2>
+<p><img src="overview/pc_smd.png" alt="PC balance before and after matching"></p>
+<figcaption>Standardized mean differences for PC1 through PC10. PC1 through PC5 were used in matching. The shaded interval is |SMD| &lt; 0.1.</figcaption>
+<p><img src="overview/centres.png" alt="Assessment centre balance"></p>
+<figcaption>Assessment-centre SMDs at 1:6. Assessment centre was not used to construct the matches.</figcaption>
 
 <h2>Simulation</h2>
+<p><img src="overview/simulation.png" alt="Simulation type I error and power"></p>
+<figcaption>1,000 replicates of 50,000 individuals. Error bars are 95% Wilson intervals. The dashed line in the left panel is 0.05.</figcaption>
 <pre>Rscript simulation/revised_oracle_matching_simulation.R --calibrated --n-pcs=5 --n-iter=1000 --N=50000 --max-matched-cases=2500</pre>
-<p>A completed copy of this run is in <code>summary/simulation/</code>.</p>
 
-<p>The R Markdown source for this overview is <code>rare-variants.Rmd</code>.</p>
+<h2>UK Biobank files</h2>
+<p>Approved researchers can place the files listed in <code>data/README.md</code> and rerun the numbered scripts under <code>analysis/00_CLR/</code>.</p>
 </body>
 </html>
