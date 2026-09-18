@@ -310,56 +310,86 @@ p_value <- 2 * pnorm(-abs(score0 / sqrt(information0)))
 # Rscript simulation/revised_oracle_matching_simulation.R --calibrated --n-pcs=5 --n-iter=1000 --N=50000 --max-matched-cases=2500
 ```
 
-```{r}
-sim$method <- factor(
-  sim$method,
-  levels = c("Oracle GWAS", "Standard GWAS", "PC-adjusted GWAS", "Matching + CLR")
+```{r, fig.width=11.2, fig.height=8.8}
+suppressMessages(library(patchwork))
+sim$ratio_label <- factor(as.character(sim$ratio_label), levels = c("1:6", "1:4", "1:1"))
+sim$median_chisq <- sim$lambda_gc * qchisq(0.5, 1)
+figure2_method_labels <- c(
+  "Oracle GWAS" = "Oracle logistic",
+  "Standard GWAS" = "Unadjusted logistic",
+  "PC-adjusted GWAS" = "PC-adjusted logistic",
+  "Matching + CLR" = "CLR"
 )
-sim$ratio_label <- factor(sim$ratio_label, levels = c("1:6", "1:4", "1:1"))
-sim_wide <- function(scenario) {
-  d <- sim[sim$scenario == scenario, ]
-  out <- data.frame(
-    Method = levels(d$method),
-    stringsAsFactors = FALSE
-  )
-  for (ratio in levels(d$ratio_label)) {
-    rows <- d[d$ratio_label == ratio, ]
-    rows <- rows[match(out$Method, rows$method), ]
-    out[[ratio]] <- rows$rejection_rate
-  }
-  out
-}
-knitr::kable(sim_wide("Negative control"), digits = 3, caption = "Type I error.")
-knitr::kable(sim_wide("Positive control"), digits = 3, caption = "Power.")
-```
-
-```{r, fig.width=8.4, fig.height=3.8}
-keep <- sim$method %in% c("Oracle GWAS", "PC-adjusted GWAS", "Matching + CLR")
-sim2 <- sim[keep, ]
-sim2$panel <- factor(
-  ifelse(sim2$scenario == "Negative control", "Type I error", "Power"),
-  levels = c("Type I error", "Power")
+sim$figure2_series <- factor(
+  unname(figure2_method_labels[as.character(sim$method)]),
+  levels = c("Oracle logistic", "Unadjusted logistic", "PC-adjusted logistic", "CLR")
 )
-sim_cols <- c(
-  "Oracle GWAS" = "#6A3D9A",
-  "PC-adjusted GWAS" = "#0072B2",
-  "Matching + CLR" = "#009E73"
+figure2_colours <- c(
+  "Oracle logistic" = "#000000",
+  "Unadjusted logistic" = "#D55E00",
+  "PC-adjusted logistic" = "#0072B2",
+  "CLR" = "#009E73"
 )
-ggplot(sim2, aes(ratio_label, rejection_rate, colour = method, group = method)) +
-  geom_hline(
-    data = data.frame(panel = "Type I error", y = 0.05),
-    aes(yintercept = y),
-    linetype = "dashed",
-    colour = "grey40"
+figure2_shapes <- c(
+  "Oracle logistic" = 18,
+  "Unadjusted logistic" = 15,
+  "PC-adjusted logistic" = 17,
+  "CLR" = 16
+)
+sim_neg <- sim[sim$scenario == "Negative control", ]
+sim_pos <- sim[sim$scenario == "Positive control", ]
+type1_plot <- ggplot(
+  sim_neg,
+  aes(ratio_label, rejection_rate, ymin = ci_lower, ymax = ci_upper, colour = figure2_series, shape = figure2_series)
+) +
+  geom_hline(yintercept = 0.05, linetype = "dashed", colour = "grey35") +
+  geom_line(aes(group = figure2_series), linewidth = 0.55) +
+  geom_errorbar(width = 0.1, linewidth = 0.45) +
+  geom_point(size = 2.1) +
+  scale_colour_manual(values = figure2_colours, drop = FALSE) +
+  scale_shape_manual(values = figure2_shapes, drop = FALSE) +
+  scale_y_log10(
+    breaks = c(0.025, 0.05, 0.1, 0.2, 0.5, 1),
+    labels = c("2.5%", "5%", "10%", "20%", "50%", "100%"),
+    limits = c(0.025, 1.05)
   ) +
-  geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), width = 0.08) +
-  geom_line() +
-  geom_point(size = 2) +
-  facet_grid(. ~ panel) +
-  scale_colour_manual(values = sim_cols) +
-  labs(x = "Matching ratio", y = "Rejection rate", colour = NULL) +
-  ylim(0, 1) +
+  labs(title = "A  Type I error", x = "Matching ratio", y = "Type I error rate", colour = NULL, shape = NULL) +
   paper_theme
+power_plot <- ggplot(
+  sim_pos,
+  aes(ratio_label, rejection_rate, ymin = ci_lower, ymax = ci_upper, colour = figure2_series, shape = figure2_series)
+) +
+  geom_line(aes(group = figure2_series), linewidth = 0.55) +
+  geom_errorbar(width = 0.1, linewidth = 0.45) +
+  geom_point(size = 2.1) +
+  scale_colour_manual(values = figure2_colours, drop = FALSE) +
+  scale_shape_manual(values = figure2_shapes, drop = FALSE) +
+  scale_y_continuous(labels = function(x) paste0(round(100 * x), "%"), limits = c(0, 1.02)) +
+  labs(title = "B  Power", x = "Matching ratio", y = "Statistical power", colour = NULL, shape = NULL) +
+  paper_theme
+lambda_plot <- ggplot(sim_neg, aes(ratio_label, lambda_gc, colour = figure2_series, shape = figure2_series)) +
+  geom_hline(yintercept = 1, linetype = "dashed", colour = "grey35") +
+  geom_line(aes(group = figure2_series), linewidth = 0.55) +
+  geom_point(size = 2.2) +
+  scale_colour_manual(values = figure2_colours, drop = FALSE) +
+  scale_shape_manual(values = figure2_shapes, drop = FALSE) +
+  scale_y_log10(breaks = c(0.5, 1, 2, 4, 8, 20, 80), labels = c("0.5", "1", "2", "4", "8", "20", "80")) +
+  labs(title = "C  Genomic inflation", x = "Matching ratio", y = expression(lambda[GC]), colour = NULL, shape = NULL) +
+  paper_theme +
+  guides(colour = "none", shape = "none")
+positive_chisq_plot <- ggplot(sim_pos, aes(ratio_label, median_chisq, colour = figure2_series, shape = figure2_series)) +
+  geom_hline(yintercept = qchisq(0.95, 1), linetype = "dashed", colour = "grey35") +
+  geom_line(aes(group = figure2_series), linewidth = 0.55) +
+  geom_point(size = 2.2) +
+  scale_colour_manual(values = figure2_colours, drop = FALSE) +
+  scale_shape_manual(values = figure2_shapes, drop = FALSE) +
+  scale_y_log10(breaks = c(qchisq(0.95, 1), 5, 10, 20), labels = c("3.84", "5", "10", "20")) +
+  labs(title = "D  Median chi-square", x = "Matching ratio", y = expression("Median " * chi^2), colour = NULL, shape = NULL) +
+  paper_theme +
+  guides(colour = "none", shape = "none")
+(type1_plot | power_plot) / (lambda_plot | positive_chisq_plot) +
+  plot_layout(guides = "collect") &
+  theme(legend.position = "bottom")
 ```
 
 ```{r, fig.width=12.8, fig.height=6.2}
@@ -413,36 +443,4 @@ ggplot(qq_sim, aes(expected, observed, colour = scenario)) +
     strip.text = element_text(size = 8),
     axis.text = element_text(size = 7)
   )
-```
-
-```{r, fig.width=7.6, fig.height=4.2}
-pos <- sim[sim$scenario == "Positive control", ]
-ggplot(pos, aes(ratio_label, mean_beta, colour = method, group = method)) +
-  geom_hline(yintercept = log(1.5), linetype = "dashed", colour = "grey40") +
-  geom_line() +
-  geom_point(size = 2) +
-  scale_colour_manual(values = c(
-    "Oracle GWAS" = "#6A3D9A",
-    "Standard GWAS" = "#D55E00",
-    "PC-adjusted GWAS" = "#0072B2",
-    "Matching + CLR" = "#009E73"
-  )) +
-  labs(x = "Matching ratio", y = "Mean estimated log(OR)", colour = NULL) +
-  paper_theme
-```
-
-```{r, fig.width=8.4, fig.height=4.2}
-clr <- sim[sim$method == "Matching + CLR", ]
-info <- rbind(
-  data.frame(clr[, c("scenario", "ratio_label")], value = clr$mean_matched_mac, quantity = "Matched MAC"),
-  data.frame(clr[, c("scenario", "ratio_label")], value = clr$mean_discordant_strata, quantity = "Discordant strata")
-)
-info$quantity <- factor(info$quantity, levels = c("Matched MAC", "Discordant strata"))
-ggplot(info, aes(ratio_label, value, colour = scenario, group = scenario)) +
-  geom_line() +
-  geom_point(size = 2) +
-  facet_grid(. ~ quantity, scales = "free_y") +
-  scale_colour_manual(values = c("Negative control" = "#0072B2", "Positive control" = "#D55E00")) +
-  labs(x = "Matching ratio", y = "Mean value", colour = NULL) +
-  paper_theme
 ```
