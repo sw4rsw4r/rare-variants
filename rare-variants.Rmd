@@ -6,82 +6,149 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, fig.width = 7, fig.height = 4.8, dpi = 140)
 options(warn = -1)
 ```
 
-# Overview
-
-This repository contains the scripts used for the analyses reported in the paper. Cases were matched to controls on genetic PC1 through PC5 using Mahalanobis distance. Matched sets were analysed with CLR at ratios of 1:6, 1:4, and 1:1.
-
-The UK Biobank analyses used application 98032. Individual-level genotype and phenotype files are not in this repository. Variant-level association results and other summary tables are in `summary/`. The simulation does not require UK Biobank data.
-
+# Load packages and functions
 ```{r}
 # Installed the following packages by running:
 # > conda env create -f env.yml
 # > conda activate rare-variants
 
 suppressMessages(library(ggplot2))
-suppressMessages(library(knitr))
+# suppressMessages(library(MatchIt))
+# suppressMessages(library(survival))
+
+source("R/utils.R")
 ```
 
-# Data
-
-Place approved UK Biobank files under `data/` as described in `data/README.md`. Then build the phenotype ID lists used by the analysis scripts.
+Individual-level UK Biobank files are not in this repository. After placing the files in `data/README.md`, the phenotype lists used by the analysis scripts can be built as follows.
 
 ```{r, eval=FALSE}
-source("R/utils.R")
-load_TV()
-load_lactose_intolerance()
+tv <- load_TV()
+lactose <- load_lactose_intolerance()
 ```
 
-UK Biobank field 1070 defined TV watching. Values coded as do not know or prefer not to answer were treated as missing. Values indicating less than 1h per day were coded as 0. The mean across visits was used, and a mean of at least 2h per day defined the case group. Lactose intolerance cases were ICD-10 codes beginning with E73 in field 41270, excluding E73.1. Controls were other participants with at least one field 41270 code.
+# Match cases to controls
 
-# Real data analyses
+Cases were matched to controls on PC1 through PC5 using Mahalanobis distance, without replacement. Sex and genotype were not used to construct the matches. The helper functions are in `analysis/00_CLR/010_pc_matching_helpers.R`.
 
-These scripts expect the local UK Biobank files above. They write participant identifiers under `results/` and those files must stay local.
+```{r, eval=FALSE}
+source("analysis/00_CLR/010_pc_matching_helpers.R")
 
-- LCT region and TV watching, 15,000-case common pool, CLR 1:6: `analysis/00_CLR/018_lct_tv_15000_case_ratio6.R`
-- The same case pool at 1:4 and 1:1: `analysis/00_CLR/019_lct_tv_15000_common_pool_1to1_1to4.R`
-- LCT region and lactose intolerance: `analysis/00_CLR/016_lct_lactose_positive_control_1to1_1to4_1to6.R`
-- Chromosome 2 rare variants and TV watching: `analysis/00_CLR/023_chr2_random100_tv_15000_rare_chisq.R`
-- Rare-variant permutation in the TV panels: `analysis/00_CLR/021_lct_tv_15000_rare_permutation_matched.R` and `analysis/00_CLR/024_chr2_random100_tv_15000_rare_permutation.R`
-- PC1 through PC10 balance: `analysis/00_CLR/065_plot_pc1_pc10_combined_balance.R`
-- Assessment-centre balance from field 54: `analysis/00_CLR/059_analyze_recruitment_centre_balance.R`
-- Informative matched sets: `analysis/00_CLR/056_build_real_data_informative_strata_draft.R`
+match_object <- MatchIt::matchit(
+  case ~ PC1 + PC2 + PC3 + PC4 + PC5,
+  data = candidate_data,
+  method = "nearest",
+  distance = "mahalanobis",
+  estimand = "ATT",
+  replace = FALSE,
+  m.order = "farthest",
+  ratio = ratio
+)
+matched_data <- MatchIt::match.data(
+  match_object,
+  data = candidate_data,
+  drop.unmatched = TRUE
+)
+```
 
-Matching used MatchIt nearest-neighbour Mahalanobis distance on PC1 through PC5, without replacement. CLR used `survival::clogit` with `method = "exact"` and Wald chi-square(1) P values.
+# Run CLR
 
-# Summary tables
+Matched sets were analysed with conditional logistic regression. P values were Wald chi-square statistics with one degree of freedom.
 
-The deposited files below contain no participant identifiers. They are enough to rebuild the manuscript comparisons without UK Biobank access.
+```{r, eval=FALSE}
+fit <- survival::clogit(
+  case ~ SNP + strata(STRATUM),
+  data = model_data,
+  method = "exact"
+)
+```
+
+The numbered scripts under `analysis/00_CLR/` run these steps on local UK Biobank files. The TV analysis used a fixed sample of 15,000 cases.
+
+```{r, eval=FALSE}
+# LCT region and TV watching
+match_ratio_result <- match_ratio(6, selected_case_pool)
+clr <- run_clr(genotype_all[idx, , drop = FALSE], matched, 6)
+
+# Rscript analysis/00_CLR/018_lct_tv_15000_case_ratio6.R
+# Rscript analysis/00_CLR/019_lct_tv_15000_common_pool_1to1_1to4.R
+# Rscript analysis/00_CLR/016_lct_lactose_positive_control_1to1_1to4_1to6.R
+# Rscript analysis/00_CLR/023_chr2_random100_tv_15000_rare_chisq.R
+```
+
+# Load deposited results
+
+Variant-level results deposited in `summary/` contain no participant identifiers.
 
 ```{r}
 lct_tv <- read.delim("summary/real/lct_tv_comparison.tsv", check.names = FALSE)
-lactose <- read.delim("summary/real/lactose_comparison.tsv", check.names = FALSE)
 chr2 <- read.delim("summary/real/chr2_tv_comparison.tsv", check.names = FALSE)
-sim <- read.csv("summary/simulation/summary_metrics.csv", check.names = FALSE)
+lactose <- read.delim("summary/real/lactose_comparison.tsv", check.names = FALSE)
 rs4988235 <- read.delim("summary/real/rs4988235_positive_control.tsv", check.names = FALSE)
+pc_smd <- read.delim("summary/real/pc1_pc10_balance.tsv", check.names = FALSE)
+centres <- read.delim("summary/real/recruitment_centre_balance_detailed.tsv", check.names = FALSE)
+sim <- read.csv("summary/simulation/summary_metrics.csv", check.names = FALSE)
 
 lambda_gc <- function(chisq) {
   median(as.numeric(chisq), na.rm = TRUE) / qchisq(0.5, 1)
 }
 
-kable(
+method_cols <- c(
+  "Unadjusted logistic" = "#D55E00",
+  "PC-adjusted logistic" = "#0072B2",
+  "CLR 1:6" = "#E69F00",
+  "CLR 1:4" = "#CC79A7",
+  "CLR 1:1" = "#009E73"
+)
+p_map <- c(
+  "Unadjusted logistic" = "P_PLAIN",
+  "PC-adjusted logistic" = "P_PC_ADJUSTED",
+  "CLR 1:6" = "P_1TO6",
+  "CLR 1:4" = "P_1TO4",
+  "CLR 1:1" = "P_1TO1"
+)
+
+qq_df <- function(data, panel) {
+  out <- lapply(names(p_map), function(method) {
+    p <- sort(as.numeric(data[[p_map[[method]]]]))
+    p <- p[is.finite(p) & p > 0 & p <= 1]
+    n <- length(p)
+    data.frame(
+      panel = panel,
+      method = method,
+      expected = -log10((seq_len(n) - 0.5) / n),
+      observed = -log10(p),
+      stringsAsFactors = FALSE
+    )
+  })
+  d <- do.call(rbind, out)
+  d$method <- factor(d$method, levels = names(method_cols))
+  d
+}
+
+paper_theme <- theme_bw(base_size = 11) +
+  theme(panel.grid.minor = element_blank(), legend.position = "bottom")
+```
+
+```{r}
+knitr::kable(
   data.frame(
     Panel = c("LCT/TV", "Chromosome 2/TV", "LCT/lactose"),
     N_variants = c(nrow(lct_tv), nrow(chr2), nrow(lactose)),
-    Lambda_unadjusted = c(
+    Unadjusted = c(
       lambda_gc(lct_tv$CHISQ_PLAIN),
       lambda_gc(chr2$CHISQ_PLAIN),
       lambda_gc(lactose$CHISQ_PLAIN)
     ),
-    Lambda_PC_adjusted = c(
+    PC_adjusted = c(
       lambda_gc(lct_tv$CHISQ_PC_ADJUSTED),
       lambda_gc(chr2$CHISQ_PC_ADJUSTED),
       lambda_gc(lactose$CHISQ_PC_ADJUSTED)
     ),
-    Lambda_CLR_1to1 = c(
+    CLR_1to1 = c(
       lambda_gc(lct_tv$CHISQ_1TO1),
       lambda_gc(chr2$CHISQ_1TO1),
       lambda_gc(lactose$CHISQ_1TO1)
@@ -90,26 +157,130 @@ kable(
   digits = 2,
   caption = "Genomic inflation from deposited variant-level results."
 )
+```
 
-kable(rs4988235, caption = "rs4988235-A association with lactose intolerance.")
+# Plot
+```{r, fig.width=6.2, fig.height=5.4}
+qq <- qq_df(lct_tv, "LCT/TV")
+ggplot(qq, aes(expected, observed, colour = method)) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey40") +
+  geom_line(linewidth = 0.5) +
+  geom_point(size = 1.1, alpha = 0.7) +
+  coord_cartesian(xlim = c(0, 8), ylim = c(0, 8)) +
+  scale_colour_manual(values = method_cols) +
+  labs(
+    title = "LCT region and TV watching",
+    x = expression(Expected ~ -log[10](P)),
+    y = expression(Observed ~ -log[10](P)),
+    colour = NULL
+  ) +
+  paper_theme
+```
+
+```{r, fig.width=6.2, fig.height=5.4}
+qq2 <- qq_df(chr2, "chr2/TV")
+ggplot(qq2, aes(expected, observed, colour = method)) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey40") +
+  geom_line(linewidth = 0.5) +
+  geom_point(size = 1.1, alpha = 0.7) +
+  coord_cartesian(xlim = c(0, 8), ylim = c(0, 8)) +
+  scale_colour_manual(values = method_cols) +
+  labs(
+    title = "Chromosome 2 rare variants and TV watching",
+    x = expression(Expected ~ -log[10](P)),
+    y = expression(Observed ~ -log[10](P)),
+    colour = NULL
+  ) +
+  paper_theme
+```
+
+```{r, fig.width=6.8, fig.height=3.6}
+rs4988235$Method <- factor(
+  rs4988235$Method,
+  levels = c("Plain logistic", "PC-adjusted logistic", "CLR 1:6", "CLR 1:4", "CLR 1:1")
+)
+ggplot(rs4988235, aes(OR, Method)) +
+  geom_vline(xintercept = 1, linetype = "dashed", colour = "grey40") +
+  geom_errorbar(aes(xmin = OR_lower, xmax = OR_upper), width = 0.2, orientation = "y", colour = "#009E73") +
+  geom_point(colour = "#009E73", size = 2.2) +
+  labs(
+    title = "rs4988235-A and lactose intolerance",
+    x = "Odds ratio per A allele",
+    y = NULL
+  ) +
+  paper_theme +
+  theme(legend.position = "none")
+```
+
+```{r, fig.width=9.2, fig.height=4.4}
+pc_smd$pc_num <- as.integer(sub("PC", "", pc_smd$VARIABLE))
+pc_smd$Ratio <- factor(pc_smd$Ratio, levels = c("1:6", "1:4", "1:1"))
+pc_long <- rbind(
+  data.frame(pc_smd[, c("Ratio", "VARIABLE", "pc_num")], SMD = pc_smd$PRE_SMD, Stage = "Before"),
+  data.frame(pc_smd[, c("Ratio", "VARIABLE", "pc_num")], SMD = pc_smd$POST_SMD, Stage = "After")
+)
+ggplot(pc_long, aes(SMD, reorder(VARIABLE, -pc_num), colour = Stage)) +
+  annotate("rect", xmin = -0.1, xmax = 0.1, ymin = -Inf, ymax = Inf, fill = "#EAF4F1", colour = NA) +
+  geom_vline(xintercept = 0, colour = "grey50") +
+  geom_point(size = 2) +
+  facet_wrap(~Ratio) +
+  scale_colour_manual(values = c(Before = "#D55E00", After = "#009E73")) +
+  labs(title = "PC balance before and after matching", x = "SMD", y = NULL, colour = NULL) +
+  paper_theme
+```
+
+```{r, fig.width=6.4, fig.height=6.8}
+c16 <- centres[centres$Ratio == "1:6", ]
+c16 <- c16[order(abs(c16$PRE_SMD)), ]
+c16$CENTRE <- factor(c16$CENTRE, levels = c16$CENTRE)
+c_long <- rbind(
+  data.frame(CENTRE = c16$CENTRE, SMD = c16$PRE_SMD, Stage = "Before"),
+  data.frame(CENTRE = c16$CENTRE, SMD = c16$POST_SMD, Stage = "After")
+)
+ggplot(c_long, aes(SMD, CENTRE, colour = Stage)) +
+  annotate("rect", xmin = -0.1, xmax = 0.1, ymin = -Inf, ymax = Inf, fill = "#EAF4F1", colour = NA) +
+  geom_vline(xintercept = 0, colour = "grey50") +
+  geom_point(size = 2) +
+  scale_colour_manual(values = c(Before = "#D55E00", After = "#009E73")) +
+  labs(title = "Assessment centres at 1:6", x = "SMD", y = NULL, colour = NULL) +
+  paper_theme
 ```
 
 # Simulation
 
-The manuscript simulation used 1,000 replicates of 50,000 individuals, PC1 through PC5, and a common pool of 2,500 cases at matching ratios 1:6, 1:4, and 1:1. Matched P values were score tests with the genotype coefficient set to zero.
+The manuscript simulation used 1,000 replicates of 50,000 individuals and a common pool of 2,500 cases. Matched P values were score tests with the genotype coefficient set to zero.
 
 ```{r, eval=FALSE}
 # Run from the repository root. This takes a long time.
 # Rscript simulation/revised_oracle_matching_simulation.R --calibrated --n-pcs=5 --n-iter=1000 --N=50000 --max-matched-cases=2500
 ```
 
-Deposited simulation summaries are shown below.
-
-```{r}
-matching <- subset(sim, method == "Matching + CLR")
-kable(
-  matching[, c("scenario", "ratio_label", "rejection_rate", "lambda_gc", "n_valid")],
-  digits = 3,
-  caption = "Simulation Type I error and power for CLR after PC matching."
+```{r, fig.width=8.4, fig.height=3.8}
+keep <- sim$method %in% c("Oracle GWAS", "PC-adjusted GWAS", "Matching + CLR")
+sim2 <- sim[keep, ]
+sim2$ratio_label <- factor(sim2$ratio_label, levels = c("1:6", "1:4", "1:1"))
+sim2$panel <- factor(
+  ifelse(sim2$scenario == "Negative control", "Type I error", "Power"),
+  levels = c("Type I error", "Power")
 )
+sim_cols <- c(
+  "Oracle GWAS" = "#6A3D9A",
+  "PC-adjusted GWAS" = "#0072B2",
+  "Matching + CLR" = "#009E73"
+)
+ggplot(sim2, aes(ratio_label, rejection_rate, colour = method, group = method)) +
+  geom_hline(
+    data = data.frame(panel = "Type I error", y = 0.05),
+    aes(yintercept = y),
+    linetype = "dashed",
+    colour = "grey40"
+  ) +
+  geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), width = 0.08) +
+  geom_line() +
+  geom_point(size = 2) +
+  facet_wrap(~panel) +
+  scale_colour_manual(values = sim_cols) +
+  labs(x = "Matching ratio", y = "Rejection rate", colour = NULL) +
+  ylim(0, 1) +
+  paper_theme
 ```
