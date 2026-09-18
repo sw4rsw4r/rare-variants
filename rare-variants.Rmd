@@ -91,6 +91,8 @@ rs4988235 <- read.delim("summary/real/rs4988235_positive_control.tsv", check.nam
 pc_smd <- read.delim("summary/real/pc1_pc10_balance.tsv", check.names = FALSE)
 centres <- read.delim("summary/real/recruitment_centre_balance_detailed.tsv", check.names = FALSE)
 sim <- read.csv("summary/simulation/summary_metrics.csv", check.names = FALSE)
+sim_rep <- read.csv("summary/simulation/replicate_results.csv", check.names = FALSE)
+sim_settings <- read.csv("summary/simulation/simulation_settings.csv", check.names = FALSE)
 
 lambda_gc <- function(chisq) {
   median(as.numeric(chisq), na.rm = TRUE) / qchisq(0.5, 1)
@@ -248,17 +250,92 @@ ggplot(c_long, aes(SMD, CENTRE, colour = Stage)) +
 
 # Simulation
 
-The manuscript simulation used 1,000 replicates of 50,000 individuals and a common pool of 2,500 cases. Matched P values were score tests with the genotype coefficient set to zero.
+The manuscript simulation used 1,000 replicates of 50,000 individuals, PC1 through PC5, and a common pool of 2,500 cases. Ancestry shifted both allele frequency and disease risk. Matched P values were score tests with the genotype coefficient set to zero.
+
+```{r}
+knitr::kable(
+  sim_settings[sim_settings$parameter %in% c(
+    "N", "n_iter", "n_pcs", "maf_A", "maf_B", "beta_positive",
+    "max_matched_cases", "match_ratios", "matching_design"
+  ), ],
+  row.names = FALSE,
+  caption = "Calibrated simulation settings."
+)
+```
+
+```{r, eval=FALSE}
+ancestry <- rbinom(settings$N, size = 1L, prob = settings$prop_A)
+pc_matrix <- sapply(seq_len(settings$n_pcs), function(index) {
+  rnorm(
+    settings$N,
+    mean = settings$pc_separation[[index]] * ancestry,
+    sd = settings$pc_sd
+  )
+})
+maf <- ifelse(ancestry == 1L, settings$maf_A, settings$maf_B)
+G <- rbinom(settings$N, size = 2L, prob = maf)
+Y <- rbinom(
+  settings$N,
+  size = 1L,
+  prob = plogis(settings$intercept + settings$ancestry_log_odds * ancestry + truth * G)
+)
+```
+
+Matching used the same PC-only Mahalanobis rule as the UK Biobank analyses.
+
+```{r, eval=FALSE}
+match_object <- MatchIt::matchit(
+  stats::reformulate(settings$pc_names, response = "Y"),
+  data = data,
+  method = "nearest",
+  distance = "mahalanobis",
+  estimand = "ATT",
+  replace = FALSE,
+  m.order = "farthest",
+  ratio = ratio
+)
+```
+
+```{r, eval=FALSE}
+case_g <- genotype_matrix[, 1L]
+mean_g0 <- rowMeans(genotype_matrix)
+var_g0 <- rowMeans(genotype_matrix^2) - mean_g0^2
+score0 <- sum(case_g - mean_g0)
+information0 <- sum(var_g0)
+p_value <- 2 * pnorm(-abs(score0 / sqrt(information0)))
+```
 
 ```{r, eval=FALSE}
 # Run from the repository root. This takes a long time.
 # Rscript simulation/revised_oracle_matching_simulation.R --calibrated --n-pcs=5 --n-iter=1000 --N=50000 --max-matched-cases=2500
 ```
 
+```{r}
+sim$method <- factor(
+  sim$method,
+  levels = c("Oracle GWAS", "Standard GWAS", "PC-adjusted GWAS", "Matching + CLR")
+)
+sim$ratio_label <- factor(sim$ratio_label, levels = c("1:6", "1:4", "1:1"))
+sim_wide <- function(scenario) {
+  d <- sim[sim$scenario == scenario, ]
+  out <- data.frame(
+    Method = levels(d$method),
+    stringsAsFactors = FALSE
+  )
+  for (ratio in levels(d$ratio_label)) {
+    rows <- d[d$ratio_label == ratio, ]
+    rows <- rows[match(out$Method, rows$method), ]
+    out[[ratio]] <- rows$rejection_rate
+  }
+  out
+}
+knitr::kable(sim_wide("Negative control"), digits = 3, caption = "Type I error.")
+knitr::kable(sim_wide("Positive control"), digits = 3, caption = "Power.")
+```
+
 ```{r, fig.width=8.4, fig.height=3.8}
 keep <- sim$method %in% c("Oracle GWAS", "PC-adjusted GWAS", "Matching + CLR")
 sim2 <- sim[keep, ]
-sim2$ratio_label <- factor(sim2$ratio_label, levels = c("1:6", "1:4", "1:1"))
 sim2$panel <- factor(
   ifelse(sim2$scenario == "Negative control", "Type I error", "Power"),
   levels = c("Type I error", "Power")
@@ -278,9 +355,94 @@ ggplot(sim2, aes(ratio_label, rejection_rate, colour = method, group = method)) 
   geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), width = 0.08) +
   geom_line() +
   geom_point(size = 2) +
-  facet_wrap(~panel) +
+  facet_grid(. ~ panel) +
   scale_colour_manual(values = sim_cols) +
   labs(x = "Matching ratio", y = "Rejection rate", colour = NULL) +
   ylim(0, 1) +
+  paper_theme
+```
+
+```{r, fig.width=12.8, fig.height=6.2}
+sim_rep$method <- factor(
+  sim_rep$method,
+  levels = c("Oracle GWAS", "Standard GWAS", "PC-adjusted GWAS", "Matching + CLR")
+)
+qq_input <- sim_rep[
+  sim_rep$method == "Matching + CLR" |
+    (sim_rep$method != "Matching + CLR" & sim_rep$ratio == 1),
+]
+qq_input$panel <- ifelse(
+  qq_input$method == "Matching + CLR",
+  paste0("Matching + CLR 1:", qq_input$ratio),
+  as.character(qq_input$method)
+)
+qq_input$panel <- factor(
+  qq_input$panel,
+  levels = c(
+    "Oracle GWAS", "Standard GWAS", "PC-adjusted GWAS",
+    "Matching + CLR 1:1", "Matching + CLR 1:4", "Matching + CLR 1:6"
+  )
+)
+qq_groups <- split(qq_input, interaction(qq_input$scenario, qq_input$panel, drop = TRUE))
+qq_sim <- do.call(rbind, lapply(qq_groups, function(d) {
+  p <- d$p_value[is.finite(d$p_value) & d$p_value >= 0 & d$p_value <= 1]
+  p <- pmax(p, .Machine$double.xmin)
+  data.frame(
+    scenario = as.character(d$scenario[[1L]]),
+    panel = as.character(d$panel[[1L]]),
+    expected = -log10(ppoints(length(p))),
+    observed = -log10(sort(p)),
+    stringsAsFactors = FALSE
+  )
+}))
+qq_sim$scenario <- factor(qq_sim$scenario, levels = c("Negative control", "Positive control"))
+qq_sim$panel <- factor(qq_sim$panel, levels = levels(qq_input$panel))
+ggplot(qq_sim, aes(expected, observed, colour = scenario)) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey40") +
+  geom_point(size = 0.6, alpha = 0.7) +
+  facet_grid(rows = vars(scenario), cols = vars(panel)) +
+  scale_colour_manual(values = c("Negative control" = "#0072B2", "Positive control" = "#D55E00")) +
+  labs(
+    x = expression(Expected ~ -log[10](P)),
+    y = expression(Observed ~ -log[10](P)),
+    colour = NULL
+  ) +
+  paper_theme +
+  theme(
+    legend.position = "none",
+    strip.text = element_text(size = 8),
+    axis.text = element_text(size = 7)
+  )
+```
+
+```{r, fig.width=7.6, fig.height=4.2}
+pos <- sim[sim$scenario == "Positive control", ]
+ggplot(pos, aes(ratio_label, mean_beta, colour = method, group = method)) +
+  geom_hline(yintercept = log(1.5), linetype = "dashed", colour = "grey40") +
+  geom_line() +
+  geom_point(size = 2) +
+  scale_colour_manual(values = c(
+    "Oracle GWAS" = "#6A3D9A",
+    "Standard GWAS" = "#D55E00",
+    "PC-adjusted GWAS" = "#0072B2",
+    "Matching + CLR" = "#009E73"
+  )) +
+  labs(x = "Matching ratio", y = "Mean estimated log(OR)", colour = NULL) +
+  paper_theme
+```
+
+```{r, fig.width=8.4, fig.height=4.2}
+clr <- sim[sim$method == "Matching + CLR", ]
+info <- rbind(
+  data.frame(clr[, c("scenario", "ratio_label")], value = clr$mean_matched_mac, quantity = "Matched MAC"),
+  data.frame(clr[, c("scenario", "ratio_label")], value = clr$mean_discordant_strata, quantity = "Discordant strata")
+)
+info$quantity <- factor(info$quantity, levels = c("Matched MAC", "Discordant strata"))
+ggplot(info, aes(ratio_label, value, colour = scenario, group = scenario)) +
+  geom_line() +
+  geom_point(size = 2) +
+  facet_grid(. ~ quantity, scales = "free_y") +
+  scale_colour_manual(values = c("Negative control" = "#0072B2", "Positive control" = "#D55E00")) +
+  labs(x = "Matching ratio", y = "Mean value", colour = NULL) +
   paper_theme
 ```
